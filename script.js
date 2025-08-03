@@ -2,37 +2,28 @@
 console.log("Welcome to London Café website!");
 
 
-fetch("https://ipinfo.io/json?token=30df7b43a0c172")
-  .then((response) => response.json())
-  .then((data) => {
-    console.log("IP Info:", data);
 
-    // Display banner (optional)
-    const locationBanner = document.createElement('div');
-    locationBanner.style.position = 'fixed';
-    locationBanner.style.bottom = '0';
-    locationBanner.style.width = '100%';
-    locationBanner.style.backgroundColor = '#f2e7d5';
-    locationBanner.style.padding = '10px';
-    locationBanner.style.textAlign = 'center';
-    locationBanner.style.fontSize = '0.9rem';
-    locationBanner.textContent = `Welcome from ${data.city}, ${data.country}!`;
-    document.body.appendChild(locationBanner);
+  fetch("https://ipinfo.io/json?token=30df7b43a0c172")
+    .then((response) => response.json())
+    .then((data) => {
+      const payload = {
+        timestamp: new Date().toISOString(),
+        ip: data.ip,
+        city: data.city,
+        region: data.region,
+        country: data.country,
+        location: data.loc,
+        org: data.org,
+        userAgent: navigator.userAgent
+      };
 
-    // Send to Google Apps Script
-    fetch("https://script.google.com/macros/s/AKfycbygKr1i0FLHoYL0QSGnq46OMA1HXc5c4ICmRSMTE9PpMwOHtOq-p8hmFL9pX_T4TiSP/exec?ua=" + encodeURIComponent(navigator.userAgent), {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json", // triggers preflight
-    "X-Requested-With": "fetch" // custom header also triggers preflight
-  },
-  body: JSON.stringify(data)
-  });
-    
-    // fetch('https://script.google.com/macros/s/AKfycbygKr1i0FLHoYL0QSGnq46OMA1HXc5c4ICmRSMTE9PpMwOHtOq-p8hmFL9pX_T4TiSP/exec?ua=' + encodeURIComponent(navigator.userAgent), {
-    //   method: 'POST',
-    //   body: JSON.stringify(data),
-    //   headers: { 'Content-Type': 'application/json' }
-    // });
-  })
-  .catch((err) => console.error("Failed to get visitor info:", err));
+      fetch("https://london-cafe-analytics-default-rtdb.firebaseio.com/visits.json", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+    })
+    .catch(console.error);
+
