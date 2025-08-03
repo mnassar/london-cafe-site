@@ -22,7 +22,7 @@ fetch("https://ipinfo.io/json?token=30df7b43a0c172")
     // Send to Google Apps Script
     
     
-    fetch('https://script.google.com/macros/s/AKfycbw5wlg5_jw0jZ_PWWUUpwi-MZwTmYa4T71cKWSEI-cBWZldqL77EXRUnFbZJbpNPHLS/exec?ua=' + encodeURIComponent(navigator.userAgent), {
+    fetch('https://script.google.com/macros/s/AKfycbygKr1i0FLHoYL0QSGnq46OMA1HXc5c4ICmRSMTE9PpMwOHtOq-p8hmFL9pX_T4TiSP/exec?ua=' + encodeURIComponent(navigator.userAgent), {
       method: 'POST',
       body: JSON.stringify(data),
       headers: { 'Content-Type': 'application/json' }
