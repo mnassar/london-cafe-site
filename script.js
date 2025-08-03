@@ -20,12 +20,19 @@ fetch("https://ipinfo.io/json?token=30df7b43a0c172")
     document.body.appendChild(locationBanner);
 
     // Send to Google Apps Script
+    fetch("https://script.google.com/macros/s/AKfycbygKr1i0FLHoYL0QSGnq46OMA1HXc5c4ICmRSMTE9PpMwOHtOq-p8hmFL9pX_T4TiSP/exec?ua=" + encodeURIComponent(navigator.userAgent), {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json", // triggers preflight
+    "X-Requested-With": "fetch" // custom header also triggers preflight
+  },
+  body: JSON.stringify(data)
+  });
     
-    
-    fetch('https://script.google.com/macros/s/AKfycbygKr1i0FLHoYL0QSGnq46OMA1HXc5c4ICmRSMTE9PpMwOHtOq-p8hmFL9pX_T4TiSP/exec?ua=' + encodeURIComponent(navigator.userAgent), {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: { 'Content-Type': 'application/json' }
-    });
+    // fetch('https://script.google.com/macros/s/AKfycbygKr1i0FLHoYL0QSGnq46OMA1HXc5c4ICmRSMTE9PpMwOHtOq-p8hmFL9pX_T4TiSP/exec?ua=' + encodeURIComponent(navigator.userAgent), {
+    //   method: 'POST',
+    //   body: JSON.stringify(data),
+    //   headers: { 'Content-Type': 'application/json' }
+    // });
   })
   .catch((err) => console.error("Failed to get visitor info:", err));
