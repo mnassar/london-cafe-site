@@ -20,6 +20,8 @@ fetch("https://ipinfo.io/json?token=30df7b43a0c172")
     document.body.appendChild(locationBanner);
 
     // Send to Google Apps Script
+    
+    
     fetch('https://script.google.com/macros/s/AKfycbw5wlg5_jw0jZ_PWWUUpwi-MZwTmYa4T71cKWSEI-cBWZldqL77EXRUnFbZJbpNPHLS/exec?ua=' + encodeURIComponent(navigator.userAgent), {
       method: 'POST',
       body: JSON.stringify(data),
